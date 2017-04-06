@@ -3,6 +3,7 @@ package com.claudio.common;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 @ManagedBean
@@ -13,6 +14,16 @@ public class HelloBean implements Serializable {
 	private String name;
 	private String name2;
 	private String name3;
+	
+	//Aqui empieza la inyeccion de depencias
+	@ManagedProperty(value = "#{message}")
+	private MessageBean messageBean;
+	
+	// Hay que proveer el metodo setter
+	public void setMessageBean(MessageBean messageBean){
+		this.messageBean = messageBean;
+	}
+	
 
 	public String getName() {
 		return name;
@@ -45,6 +56,11 @@ public class HelloBean implements Serializable {
 		} else {
 			return "Ajax message : Welcome " + name + ", " + name2 + ", " + name3;
 		}
+	}
+	
+	public String getMessageInjected(){
+		
+		return this.messageBean.getSayWelcome();
 	}
 
 }
